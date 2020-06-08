@@ -6,8 +6,8 @@ import LogIn from "./components/LogIn";
 import Axios from "axios";
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       accountBalance: 0,
