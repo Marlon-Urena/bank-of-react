@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AccountBalance from "./AccountBalance";
+import { Link } from "react-router-dom";
 
 class Home extends Component {
   render() {
@@ -10,8 +11,9 @@ class Home extends Component {
           alt="bank"
         />
         <h1>Bank of React</h1>
-        
-        <AccountBalance accountBalance={this.props.AccountBalance}/>
+        <Link to="/userProfile">User Profile</Link>
+
+        <AccountBalance accountBalance={this.props.accountBalance}/>
       </div>
     );
   }
