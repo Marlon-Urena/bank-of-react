@@ -3,17 +3,56 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home";
 import UserProfile from "./components/UserProfile";
 import LogIn from "./components/LogIn";
+import Axios from "axios";
+
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      accountBalance: 14568,
+      accountBalance: 0,
       currentUser: {
         userName: "john_doe",
         memberSince: "08/23/99",
       },
+      debits: [],
+      credits: [],
     };
+  }
+
+  componentDidMount() {
+    const debitUrl = `https://moj-api.herokuapp.com/debits`;
+    const creditUrl = `https://moj-api.herokuapp.com/credits`;
+    Axios.all([
+      Axios.get(debitUrl),
+      Axios.get(creditUrl)
+    ])
+    .then( resArr => {
+      const debitData = resArr[0].data;
+      const creditData = resArr[1].data;
+      this.setState({ debits: debitData, credits: creditData });
+      this.updateAccountBalance(this.state.debits,'debits');
+      this.updateAccountBalance(this.state.credits,'credits');
+    })
+    .catch( err => {console.log(err)});
+    
+  }
+
+  updateAccountBalance = (transactions,type) => {
+    let debitValue = 0, creditValue = 0;
+    if(type === 'credits') {
+      for(const transaction of transactions) {
+        creditValue+=transaction.amount;
+        this.setState({accountBalance: this.state.accountBalance + transaction.amount})
+      }
+      console.log('Credit Value: ' + creditValue);
+      return;
+    }
+    for(const transaction of transactions) {
+      debitValue+=transaction.amount;
+      this.setState({accountBalance: this.state.accountBalance - transaction.amount})
+    }
+    console.log('Debit Value: ' +  debitValue);
   }
 
   mockLogIn = (logInInfo) => {
