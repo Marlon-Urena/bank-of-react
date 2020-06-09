@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import UserProfile from "./components/UserProfile";
 import LogIn from "./components/LogIn";
 import Axios from "axios";
+import Debit from "./components/Debit";
 
 class App extends Component {
   constructor(props) {
@@ -71,13 +72,17 @@ class App extends Component {
         memberSince={this.state.currentUser.memberSince}
       />
     );
+    const DebitComponent = () =>(
+      <Debit/>
+    )
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} {...this.props}/>)
     return (
       <Router>
         <div>
           <Route exact path="/" render={HomeComponent} />
-          <Route exact path="/userProfile" render={UserProfileComponent}/>  
+          <Route exact path="/userProfile" render={UserProfileComponent}/>
           <Route exact path="/login" render={LogInComponent}/>
+          <Route exact path="/debit" render={DebitComponent}/>
         </div>
       </Router>
     );
