@@ -20,6 +20,7 @@ class Debit extends Component {
       <div>
         <Link to="/">Home</Link>
         <h1>Debits</h1>
+    <div>Account Balance: {this.props.accountBalance.toFixed(2)}</div>
         <div>{debits()}</div>
       </div>
     );
