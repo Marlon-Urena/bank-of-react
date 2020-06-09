@@ -39,6 +39,25 @@ class App extends Component {
     
   }
 
+
+  /**
+   * Possible to merge functionality of both addTransaction and updateAccountBalance.
+   * Will work on another time...maybe.
+   */
+  addTransaction = (newTransaction, type) => {
+    this.setState( state => {
+      let amount = newTransaction.amount;
+      const transactions = [...state[type], newTransaction];
+      if(type === 'debits') {
+        amount = -amount
+      }
+      return {
+        [type]: transactions,
+        accountBalance: state.accountBalance + amount,
+      };
+    });
+  }
+
   updateAccountBalance = (transactions,type) => {
     let debitValue = 0, creditValue = 0;
     if(type === 'credits') {
@@ -73,7 +92,7 @@ class App extends Component {
       />
     );
     const DebitComponent = () =>(
-      <Debit debits={this.state.debits} accountBalance={this.state.accountBalance}/>
+      <Debit debits={this.state.debits} accountBalance={this.state.accountBalance} onAddTransaction={this.addTransaction}/>
     )
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} {...this.props}/>)
     return (
