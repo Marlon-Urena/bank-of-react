@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-class Debit extends Component {
+class Credit extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,14 +30,14 @@ class Debit extends Component {
   };
 
   render() {
-    const debits = () => 
-      this.props.debits.map((debit) => {
-        const dateString = (new Date(debit.date)).toDateString();
-        return (
+    const credits = () =>
+      this.props.credits.map((credit) => {
+        const dateString = (new Date(credit.date)).toDateString();  
+        return (       
           <>
-            <ul key={debit.id}>
-              <li>Description: {debit.description}</li>
-              <li>Amount: {debit.amount}</li>
+            <ul key={credit.id}>
+              <li>Description: {credit.description}</li>
+              <li>Amount: {credit.amount}</li>
               <li>Date: {dateString}</li>
             </ul>
           </>
@@ -47,7 +47,7 @@ class Debit extends Component {
     return (
       <div>
         <Link to="/">Home</Link>
-        <h1>Debits</h1>
+        <h1>Credits</h1>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label>Description: </label>
@@ -70,9 +70,9 @@ class Debit extends Component {
           <input type="submit" value="Add Debit" />
         </form>
         <div>Account Balance: {this.props.accountBalance.toFixed(2)}</div>
-        <>{debits()}</>
+        <>{credits()}</>
       </div>
     );
   }
 }
-export default Debit;
+export default Credit;
